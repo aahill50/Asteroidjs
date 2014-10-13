@@ -8,14 +8,20 @@
     Asteroids.Game = {};
   }
 
-  var NUM_ASTEROIDS = 5;
+  var NUM_ASTEROIDS = 10;
 
   var Game = Asteroids.Game = function (dim_x, dim_y) {
     this.dim_x = dim_x;
     this.dim_y = dim_y;
     this.num_asteroids = NUM_ASTEROIDS;
     this.asteroids = this.addAsteroids();
+    this.ship = new Asteroids.Ship(this.randomPosition(), this)
+    this.bullets = [];
+    this.allObjects = this.getAllObjects();
+  };
 
+  Game.prototype.getAllObjects = function () {
+    return this.asteroids.concat(this.bullets).concat(this.ship);
   };
 
   Game.prototype.addAsteroids = function () {
@@ -38,14 +44,14 @@
   Game.prototype.draw = function (ctx) {
     ctx.clearRect(0, 0, this.dim_x, this.dim_y);
 
-    this.asteroids.forEach(function (asteroid) {
-      asteroid.draw(ctx);
+    this.allObjects.forEach(function (object) {
+      object.draw(ctx);
     });
   };
 
   Game.prototype.moveObjects = function () {
-    this.asteroids.forEach(function (asteroid) {
-      asteroid.move();
+    this.allObjects.forEach(function (object) {
+      object.move();
     });
   };
 
@@ -68,4 +74,37 @@
     return [new_x,new_y];
   };
 
+  Game.prototype.checkCollisions = function () {
+    this.allObjects.forEach(function (object) {
+      this.allObjects.forEach(function (otherObject) {
+        if (object !== otherObject) {
+          if (object.isCollidedWith(otherObject)) {
+            // window.alert("COLLISION");
+            object.collideWith(otherObject);
+          }
+        }
+      }.bind(this));
+    }.bind(this));
+  };
+
+  Game.prototype.step = function () {
+    this.allObjects = this.getAllObjects();
+    this.moveObjects();
+    this.checkCollisions();
+  };
+
+  Game.prototype.remove = function (movingObject) {
+    for (var i = 0; i < this.allObjects.length; i++) {
+      if (this.allObjects[i] === movingObject) {
+        this.allObjects.splice(i,1);
+        if (movingObject instanceof Asteroids.Asteroid) {
+          this.asteroids.splice(i,1);
+        } else if(movingObject instanceof Asteroids.Bullet) {
+          this.bullets.splice(this.asteroids.length - i, 1);
+        }
+
+        // console.log(this.allObjects.length);
+      }
+    };
+  };
 })();

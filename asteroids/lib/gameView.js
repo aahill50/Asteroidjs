@@ -14,10 +14,20 @@
   };
 
   GameView.prototype.start = function () {
+    this.bindKeyHandlers();
     window.setInterval(function () {
-      this.game.moveObjects();
       this.game.draw(this.ctx);
+      this.game.step();
     }.bind(this), 20);
   };
 
+  GameView.prototype.bindKeyHandlers = function () {
+    // key('a', function(){ console.log('you pressed a!') });
+    var gv = this;
+    key('up', function() { gv.game.ship.power(1, "up") });
+    key('down', function() { gv.game.ship.power(1, "down") });
+    key('left', function() { gv.game.ship.power(1, "left") });
+    key('right', function() { gv.game.ship.power(1, "right") });
+    key('space', function() { gv.game.ship.fireBullet() });
+  };
 })();
