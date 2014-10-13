@@ -19,8 +19,8 @@ function Ship (name, color, size) {
 };
 Ship.inherits(MovingObject);
 
-Ship.prototype.fly = function () {
-  return "whooosh!";
+Ship.prototype.fly = function (sound) {
+  console.log(arguments);
 };
 
 function Asteroid (name, color, material) {
