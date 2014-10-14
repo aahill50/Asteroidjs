@@ -5,8 +5,8 @@
   }
 
   var Asteroid = Asteroids.Asteroid = function (pos, game) {
-    var COLOR = "green";
-    var RADIUS = 40;
+    var COLOR = "white";
+    var RADIUS = Math.random()*20 + 10;
     var args = {
       pos: pos,
       color: COLOR,

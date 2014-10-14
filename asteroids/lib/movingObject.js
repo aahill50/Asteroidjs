@@ -16,6 +16,7 @@
   MovingObject.prototype.draw = function (ctx) {
     ctx.fillStyle = this.color;
     ctx.beginPath();
+    ctx.strokeStyle = this.color;
 
     ctx.arc(
       this.pos[0], //x
@@ -25,8 +26,9 @@
       2 * Math.PI,
       false
     );
+    ctx.stroke();
 
-    ctx.fill();
+    // ctx.fill();
   };
 
   MovingObject.prototype.move = function () {

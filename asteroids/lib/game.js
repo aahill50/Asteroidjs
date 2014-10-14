@@ -8,20 +8,22 @@
     Asteroids.Game = {};
   }
 
-  var NUM_ASTEROIDS = 10;
+  var NUM_ASTEROIDS = 20;
+  var NUM_STARS = 75;
 
   var Game = Asteroids.Game = function (dim_x, dim_y) {
     this.dim_x = dim_x;
     this.dim_y = dim_y;
     this.num_asteroids = NUM_ASTEROIDS;
     this.asteroids = this.addAsteroids();
+    this.stars = this.addStars();
     this.ship = new Asteroids.Ship(this.randomPosition(), this)
     this.bullets = [];
     this.allObjects = this.getAllObjects();
   };
 
   Game.prototype.getAllObjects = function () {
-    return this.asteroids.concat(this.bullets).concat(this.ship);
+    return this.asteroids.concat(this.bullets).concat(this.ship).concat(this.stars);
   };
 
   Game.prototype.addAsteroids = function () {
@@ -34,6 +36,18 @@
     };
     return asteroids;
   };
+  
+  Game.prototype.addStars = function () {
+    var stars = [];
+    var game = this;
+
+    for (var i = 0; i < NUM_STARS; i++) {
+      var star = new Asteroids.Star(game.randomPosition(), this);
+      stars.push(star);
+    };
+    return stars;
+  };
+
 
   Game.prototype.randomPosition = function () {
     var x = Math.floor(Math.random() * (this.dim_x));
@@ -43,6 +57,8 @@
 
   Game.prototype.draw = function (ctx) {
     ctx.clearRect(0, 0, this.dim_x, this.dim_y);
+    ctx.fillStyle = "black"
+    ctx.fillRect(0, 0, this.dim_x, this.dim_y);
 
     this.allObjects.forEach(function (object) {
       object.draw(ctx);
