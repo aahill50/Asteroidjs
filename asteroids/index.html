@@ -11,21 +11,61 @@
     <script src="lib/star.js"></script>
     <script src="lib/keymaster.js"></script>
 
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        font: inherit;
+        text-decoration: inherit;
+      }
+
+      .game-container{
+        height: 600px;
+        width: 800px;
+        margin: 0 auto; 
+        border-left: 5px solid white;
+        border-right: 5px solid white;
+        border-bottom: 5px solid white;
+      }
+
+      body {
+        background: grey;
+        font-family: sans-serif;
+      }
+
+      .page-header {
+        /*font-weight: bold;*/
+        font-size: 400%;
+        background: black;
+        color: white;
+        border-bottom: 3px solid white;
+        text-align: center;
+      }
+
+      .header-text {
+        margin: 0 auto;
+        padding: 20px;
+      }
+    </style>
   </head>
   <body>
-    <canvas id="game-canvas"></canvas>
+    <header class="page-header">
+      <div class="header-text">Asteroids</div>
+    </header>
+    <section class="game-container">
+      <canvas id="game-canvas"></canvas>
 
-    <script>
-      var canvas = document.getElementById("game-canvas");
-      canvas.height = window.innerHeight - 50;
-      canvas.width = window.innerWidth - 50;
+      <script>
+        var canvas = document.getElementById("game-canvas");
+        canvas.height = 600;
+        canvas.width = 800;
 
-      var game = new Asteroids.Game(canvas.width, canvas.height);
-      var gv = new Asteroids.GameView(game, canvas.getContext('2d'));
-      gv.start();
+        var game = new Asteroids.Game(canvas.width, canvas.height);
+        var gv = new Asteroids.GameView(game, canvas.getContext('2d'));
+        gv.start();
 
 
-    </script>
-
+      </script>
+    </section>
   </body>
 </html>

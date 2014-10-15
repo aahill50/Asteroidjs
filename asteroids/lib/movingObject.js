@@ -34,9 +34,10 @@
   MovingObject.prototype.move = function () {
     var x = this.pos[0] + this.vel[0];
     var y = this.pos[1] + this.vel[1];
+    var r = this.radius;
 
     if (this.shouldWrap) {
-      this.pos = this.game.wrap([x,y]);
+      this.pos = this.game.wrap([x,y],r);
     } else {
       this.pos = [x,y];
     }
