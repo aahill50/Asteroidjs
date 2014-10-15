@@ -32,9 +32,22 @@
   };
 
   MovingObject.prototype.move = function () {
-    var x = this.pos[0] + this.vel[0];
-    var y = this.pos[1] + this.vel[1];
+    var relvel = [];
+    if (this instanceof Asteroids.Star) {
+      relvel[0] = this.game.ship.vel[0]*.2 || 0;
+      relvel[1] = this.game.ship.vel[1]*.3 || 0;
+    } else {
+      relvel[0] = 0;
+      relvel[1] = 0;
+    };
+    // console.log(relvel[0]);
+    var x = this.pos[0] + this.vel[0] - relvel[0];
+    var y = this.pos[1] + this.vel[1] - relvel[1];
     var r = this.radius;
+
+    if (!this.shouldWrap && this.game.isOutOfBounds([x,y], r)) {
+      this.game.remove(this);
+    };
 
     if (this.shouldWrap) {
       this.pos = this.game.wrap([x,y],r);
@@ -62,8 +75,5 @@
   };
 
   MovingObject.prototype.collideWith = function (otherObject) {
-    // this.game.remove(this);
-    // this.game.remove(otherObject);
-    // console.log("CRASH!!!")
   };
 })();

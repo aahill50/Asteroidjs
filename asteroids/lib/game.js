@@ -11,9 +11,9 @@
   var NUM_ASTEROIDS = 15;
   var NUM_STARS = 75;
 
-  var Game = Asteroids.Game = function (dim_x, dim_y) {
-    this.dim_x = dim_x;
-    this.dim_y = dim_y;
+  var Game = Asteroids.Game = function (dimX, dimY) {
+    this.dimX = dimX;
+    this.dimY = dimY;
     this.num_asteroids = NUM_ASTEROIDS;
     this.asteroids = this.addAsteroids();
     this.stars = this.addStars();
@@ -50,15 +50,15 @@
 
 
   Game.prototype.randomPosition = function () {
-    var x = Math.floor(Math.random() * (this.dim_x));
-    var y = Math.floor(Math.random() * (this.dim_y));
+    var x = Math.floor(Math.random() * (this.dimX));
+    var y = Math.floor(Math.random() * (this.dimY));
     return [x,y];
   };
 
   Game.prototype.draw = function (ctx) {
-    ctx.clearRect(0, 0, this.dim_x, this.dim_y);
+    ctx.clearRect(0, 0, this.dimX, this.dimY);
     ctx.fillStyle = "black"
-    ctx.fillRect(0, 0, this.dim_x, this.dim_y);
+    ctx.fillRect(0, 0, this.dimX, this.dimY);
 
     this.allObjects.forEach(function (object) {
       object.draw(ctx);
@@ -72,27 +72,47 @@
   };
 
   Game.prototype.wrap = function (pos, radius) {
-    var x = pos[0]; // % this.dim_x;
-    var y = pos[1]; //% this.dim_y;
+    var x = pos[0];
+    var y = pos[1];
     var r = radius;
 
     if (x + r < 0) {
-      var new_x = this.dim_x + r;
-    } else if (x - r > this.dim_x) {
+      var new_x = this.dimX + r;
+    } else if (x - r > this.dimX) {
       var new_x = 0 - r
     } else{
       var new_x = x;
     }
 
     if (y + r < 0) {
-      var new_y = this.dim_y + r;
-    } else if (y - r > this.dim_y) {
+      var new_y = this.dimY + r;
+    } else if (y - r > this.dimY) {
       var new_y = 0 - r;
     } else {
       var new_y = y;
     }
 
     return [new_x,new_y];
+  };
+
+  Game.prototype.isOutOfBounds = function (pos, radius) {
+    var x = pos[0];
+    var y = pos[1];
+    var r = radius;
+
+    if (x + r < 0) {
+      return true;
+    } else if (x - r > this.dimX) {
+      return true;
+    } 
+
+    if (y + r < 0) {
+      return true;
+    } else if (y - r > this.dimY) {
+      return true;
+    } 
+
+    return false;
   };
 
   Game.prototype.checkCollisions = function () {
@@ -115,6 +135,7 @@
   };
 
   Game.prototype.remove = function (movingObject) {
+    console.log("Removing " + movingObject);
     for (var i = 0; i < this.allObjects.length; i++) {
       if (this.allObjects[i] === movingObject) {
         this.allObjects.splice(i,1);
@@ -124,7 +145,6 @@
           this.bullets.splice(this.asteroids.length - i, 1);
         }
 
-        // console.log(this.allObjects.length);
       }
     };
   };

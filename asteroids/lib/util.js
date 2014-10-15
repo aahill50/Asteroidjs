@@ -4,20 +4,39 @@
     window.Asteroids = {};
   }
 
-  if (typeof Asteroids.Util === "undefined") {
-    Asteroids.Util = {};
-  }
+  var Util = Asteroids.Util = {};
 
-  Asteroids.Util.inherits = function (child, parent) {
+  Util.inherits = function (child, parent) {
     function Surrogate() {};
     Surrogate.prototype = parent.prototype;
     child.prototype = new Surrogate();
   };
 
-  Asteroids.Util.randomVec = function (length) {
+  Util.randomVec = function (length) {
     var x = Math.floor(((Math.random() * 2) - 1) * (length))+1;
     var y = Math.floor(((Math.random() * 2) - 1) * (length))+1;
     return [x,y]
   };
 
+  Util.dist = function (pos1, pos2) {
+    var x1 = pos1[0];
+    var y1 = pos1[1];
+    var x2 = pos2[0];
+    var y2 = pos2[1];
+
+    return Math.sqrt(Math.pow((x1 - x2),2) + Math.pow((y1-y2),2))
+  }
+
+  Util.norm = function (pos) {
+    return Util.dist([0,0],pos)
+  };
+
+  Util.scale = function(vec, m) {
+    return [vec[0] * m, vec[1] * m]
+  };
+
+  Util.dir = function (vec) {
+    var norm = Util.norm(vec);
+    return Util.scale(vec, 1/norm) 
+  }
 })();

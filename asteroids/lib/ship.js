@@ -90,10 +90,13 @@
 
   Ship.prototype.fireBullet = function () {
     var ship = this;
-    this.game.bullets.push(new Asteroids.Bullet(ship, ship.game));
-    if (this.game.bullets.length > Ship.MAX_BULLETS) {
-      console.log("too many bullets!")
-      this.game.remove(this.game.bullets[0]);
+
+    if (Asteroids.Util.norm(ship.vel) > 0) {
+      this.game.bullets.push(new Asteroids.Bullet(ship, ship.game));
+      if (this.game.bullets.length > Ship.MAX_BULLETS) {
+        console.log("too many bullets!")
+        this.game.remove(this.game.bullets[0]);
+      };
     };
   };
 

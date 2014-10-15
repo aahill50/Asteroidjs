@@ -10,8 +10,10 @@
 
   var Bullet = Asteroids.Bullet = function (ship, game) {
     this.vel = [];
-    this.vel[0] = 2 * ship.vel[0];
-    this.vel[1] = 2 * ship.vel[1];
+    var dir = Asteroids.Util.dir(ship.vel);
+    this.vel = [ 1.5 * Asteroids.Ship.MAX_SPEED * dir[0], 1.5 * Asteroids.Ship.MAX_SPEED * dir[1] ];
+    // this.vel[0] = 2 * ship.vel[0];
+    // this.vel[1] = 2 * ship.vel[1];
     var COLOR = "red";
     var RADIUS = 2;
     var args = {
