@@ -9,11 +9,16 @@
   }
 
   var Bullet = Asteroids.Bullet = function (ship, game) {
-    this.vel = [];
-    var dir = Asteroids.Util.dir(ship.vel);
-    this.vel = [ 1.5 * Asteroids.Ship.MAX_SPEED * dir[0], 1.5 * Asteroids.Ship.MAX_SPEED * dir[1] ];
-    // this.vel[0] = 2 * ship.vel[0];
-    // this.vel[1] = 2 * ship.vel[1];
+    var shipDir = Asteroids.Util.findPointOnCircle(ship.pos, ship.radius, ship.degFacing);
+    var bulletX = (shipDir[0] - ship.pos[0])/ship.radius;
+    var bulletY = (shipDir[1] - ship.pos[1])/ship.radius;
+    bulletX *= Asteroids.Ship.MAX_SPEED * 1.3;
+    bulletY *= Asteroids.Ship.MAX_SPEED * 1.3;
+    bulletX += ship.vel[0];
+    bulletY += ship.vel[1];
+    
+    this.vel = [ bulletX, bulletY ];
+
     var COLOR = "red";
     var RADIUS = 2;
     var args = {

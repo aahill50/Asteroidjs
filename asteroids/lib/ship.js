@@ -72,18 +72,6 @@
     var shipDir = Asteroids.Util.findPointOnCircle(this.pos, this.radius, this.degFacing);
     var impX = (shipDir[0] - this.pos[0])/this.radius
     var impY = (shipDir[1] - this.pos[1])/this.radius
-    console.log(impX, impY)
-
-    // if (Math.abs(this.vel[0] + impX) > Ship.MAX_SPEED || Math.abs(this.vel[0] - impX) > Ship.MAX_SPEED) {
-    //   this.vel[0] = Ship.MAX_SPEED;
-    // } else {
-    //   this.vel[0] -= impX;
-    // }
-    // if (Math.abs(this.vel[1] + impY) > Ship.MAX_SPEED || Math.abs(this.vel[1] - impY) > Ship.MAX_SPEED) {
-    //   this.vel[1] = Ship.MAX_SPEED;
-    // } else {
-    //   this.vel[1] -= impY;
-    // }
 
     if (dir === "forward") {
       this.vel[0] += impX;
@@ -118,12 +106,10 @@
   Ship.prototype.fireBullet = function () {
     var ship = this;
 
-    if (Asteroids.Util.norm(ship.vel) > 0) {
-      this.game.bullets.push(new Asteroids.Bullet(ship, ship.game));
-      if (this.game.bullets.length > Ship.MAX_BULLETS) {
-        console.log("too many bullets!")
-        this.game.remove(this.game.bullets[0]);
-      };
+    this.game.bullets.push(new Asteroids.Bullet(ship, ship.game));
+    if (this.game.bullets.length > Ship.MAX_BULLETS) {
+      console.log("too many bullets!")
+      this.game.remove(this.game.bullets[0]);
     };
   };
 

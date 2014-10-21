@@ -8,7 +8,7 @@
     Asteroids.Game = {};
   }
 
-  var NUM_ASTEROIDS = 0;
+  var NUM_ASTEROIDS = 15;
   var NUM_STARS = 75;
 
   var Game = Asteroids.Game = function (dimX, dimY) {
