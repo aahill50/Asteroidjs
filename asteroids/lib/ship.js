@@ -69,30 +69,49 @@
   };
 
   Ship.prototype.power = function (impulse, dir) {
+    var shipDir = Asteroids.Util.findPointOnCircle(this.pos, this.radius, this.degFacing);
+    var impX = (shipDir[0] - this.pos[0])/this.radius
+    var impY = (shipDir[1] - this.pos[1])/this.radius
+    console.log(impX, impY)
+
+    // if (Math.abs(this.vel[0] + impX) > Ship.MAX_SPEED || Math.abs(this.vel[0] - impX) > Ship.MAX_SPEED) {
+    //   this.vel[0] = Ship.MAX_SPEED;
+    // } else {
+    //   this.vel[0] -= impX;
+    // }
+    // if (Math.abs(this.vel[1] + impY) > Ship.MAX_SPEED || Math.abs(this.vel[1] - impY) > Ship.MAX_SPEED) {
+    //   this.vel[1] = Ship.MAX_SPEED;
+    // } else {
+    //   this.vel[1] -= impY;
+    // }
+
+    if (dir === "forward") {
+      this.vel[0] += impX;
+      this.vel[1] += impY;
+    } else if (dir === "backward") {
+      this.vel[0] -= impX;
+      this.vel[1] -= impY;
+    }
+    
+    if (this.vel[0] > Ship.MAX_SPEED) {
+      this.vel[0] = Ship.MAX_SPEED;
+    }
+    if (this.vel[1] > Ship.MAX_SPEED) {
+      this.vel[1] = Ship.MAX_SPEED;
+    }
+    if (this.vel[0] < -1 * Ship.MAX_SPEED) {
+      this.vel[0] = -1 * Ship.MAX_SPEED;
+    }
+    if (this.vel[1] < -1 * Ship.MAX_SPEED) {
+      this.vel[1] = -1 * Ship.MAX_SPEED;
+    }
+  };
+
+    Ship.prototype.turn = function (dir) {
     if (dir === "right") {
-      if (this.vel[0] + impulse > Ship.MAX_SPEED) {
-        this.vel[0] = Ship.MAX_SPEED;
-      } else {
-        this.vel[0] += impulse;
-      }
-    } else if (dir === "down") {
-      if (this.vel[1] + impulse > Ship.MAX_SPEED) {
-        this.vel[1] = Ship.MAX_SPEED;
-      } else {
-        this.vel[1] += impulse;
-      }
+      this.degFacing += 5;
     } else if (dir === "left") {
-      if (Math.abs(this.vel[0] - impulse) > Ship.MAX_SPEED) {
-        this.vel[0] = -1 * Ship.MAX_SPEED;
-      } else {
-        this.vel[0] -= impulse;
-      }
-    } else if (dir === "up") {
-      if (Math.abs(this.vel[1] - impulse) > Ship.MAX_SPEED) {
-        this.vel[1] = -1 * Ship.MAX_SPEED;
-      } else {
-        this.vel[1] -= impulse;
-      }
+      this.degFacing -= 5;
     }
   };
 

@@ -49,6 +49,5 @@
     var sin = Math.round(100 * Math.sin(rads))/100;
 
     return [ x + r*cos, y + r*sin];
-
   }
 })();

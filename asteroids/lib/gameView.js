@@ -24,10 +24,10 @@
   GameView.prototype.bindKeyHandlers = function () {
     // key('a', function(){ console.log('you pressed a!') });
     var gv = this;
-    key('up', function() { gv.game.ship.power(1, "up") });
-    key('down', function() { gv.game.ship.power(1, "down") });
-    key('left', function() { gv.game.ship.power(1, "left") });
-    key('right', function() { gv.game.ship.power(1, "right") });
+    key('up', function() { gv.game.ship.power(1, "forward") });
+    key('down', function() { gv.game.ship.power(0.5, "backward") });
+    key('left', function() { gv.game.ship.turn("left") });
+    key('right', function() { gv.game.ship.turn("right") });
     key('space', function() { gv.game.ship.fireBullet() });
   };
 })();
