@@ -9,6 +9,7 @@
     this.vel = args["vel"];
     this.radius = args["radius"];
     this.color = args["color"];
+    this.degFacing = args["degFacing"];
     this.game = args["game"];
     this.shouldWrap = args["shouldWrap"];
   };

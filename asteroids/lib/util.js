@@ -39,4 +39,16 @@
     var norm = Util.norm(vec);
     return Util.scale(vec, 1/norm) 
   }
+
+  Util.findPointOnCircle = function(origin, radius, degrees) {
+    var x = origin[0];
+    var y = origin[1];
+    var r = radius;
+    var rads = (degrees * (Math.PI / 180));
+    var cos = Math.round(100 * Math.cos(rads))/100;
+    var sin = Math.round(100 * Math.sin(rads))/100;
+
+    return [ x + r*cos, y + r*sin];
+
+  }
 })();
