@@ -35,8 +35,8 @@
   MovingObject.prototype.move = function () {
     var relvel = [];
     if (this instanceof Asteroids.Star) {
-      relvel[0] = this.game.ship.vel[0]*.2 || 0;
-      relvel[1] = this.game.ship.vel[1]*.3 || 0;
+      relvel[0] = this.game.ship.vel[0]*.1 || 0;
+      relvel[1] = this.game.ship.vel[1]*.1 || 0;
     } else {
       relvel[0] = 0;
       relvel[1] = 0;

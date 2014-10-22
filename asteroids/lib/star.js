@@ -16,7 +16,7 @@
       pos: pos,
       color: COLOR,
       radius: RADIUS,
-      vel: [0,Math.random()*5 + .02],
+      vel: [0,Math.random()*2 + .02],
       game: game,
       shouldWrap: true
     };
