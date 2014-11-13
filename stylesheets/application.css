@@ -1,0 +1,101 @@
+body, html, ul, li, div {
+  margin: 0;
+  padding: 0;
+	border: 0;
+  font: inherit;
+  text-decoration: inherit;
+}
+
+ul {
+	list-style: none;
+}
+
+.instructions {
+	position: absolute;
+	width: 200px;
+	background: rgba(0,0,0,0.2);
+}
+
+.instructions li {
+	padding: 10px;
+}
+
+.game-container {
+	position: relative;
+  height: 600px;
+  width: 800px;
+  margin: 0 auto; 
+  border-left: 5px solid white;
+  border-right: 5px solid white;
+  border-bottom: 5px solid white;
+	cursor: crosshair;
+}
+
+body {
+  background: grey;
+  font-family: sans-serif;
+}
+
+.page-header {
+  font-size: 400%;
+  background: black;
+  color: white;
+  border-bottom: 3px solid white;
+  text-align: center;
+}
+
+#lives-left {
+	font-size: 32px;
+	position: absolute;
+	color: white;
+	top: 565px;
+	left: 5px;	
+}
+
+#game-score {
+	font-size: 32px;
+	position: absolute;
+	color: white;
+	top: 565px;
+	right: 5px;
+}
+
+#game-overlay {
+	position: absolute;
+	background: transparent;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	transition: background .2s;
+}
+
+#game-overlay.active {
+	background: black;
+}
+
+#message {
+	background: transparent;
+	position: absolute;
+	top: 45%;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	font-size: 72px;
+	color: transparent;
+}
+
+#message.paused:after {
+	color: white;
+	content: "PAUSED";
+}
+
+#message.gameover:after {
+	color: white;
+	content: "GAME OVER";
+}
+
+.header-text {
+  margin: 0 auto;
+  padding: 20px;
+}
