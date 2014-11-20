@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Asteroidjs</title>
+  <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <header class="page-header">
+    <div class="header-text">Asteroids</div>
+  </header>
+	<ul class="instructions">
+		<li>Use the Spacebar to propel the ship towards the crosshair</li>
+		<li>Click the mouse to shoot towards the crosshair</li>
+		<li>Press 'p' to Pause</li>
+	</ul>
+<%= yield %>
+
+</body>
+</html>

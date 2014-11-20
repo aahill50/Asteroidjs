@@ -1,0 +1,35 @@
+<section class="game-container">
+	<canvas id="game-canvas"></canvas>
+	<div id="game-overlay"></div>
+	<div id="message"></div>
+	<div id="lives-left"></div>
+	<div id="game-score"></div>
+
+	<script>
+		var canvas = document.getElementById("game-canvas");
+		canvas.height = 600;
+		canvas.width = 800;
+
+		var game = new Asteroids.Game(canvas.width, canvas.height);
+		var gv = new Asteroids.GameView(game, canvas.getContext('2d'));
+		gv.start();
+	</script>
+		
+	<script>
+		$( function () {
+			$gameCanvas = $('#game-canvas');
+			Asteroids.x = Asteroids.x || 0;
+			Asteroids.y = Asteroids.y || 0;
+			
+			$('#game-overlay').on("mousemove", function (event) {
+				Asteroids.x = event.pageX - $gameCanvas.offset().left;
+				Asteroids.y = event.pageY - $gameCanvas.offset().top;
+			})
+				
+			$('#game-overlay').on('click', function(event) {
+				event.preventDefault();
+				gv.game.ship.fireBullet()
+			});
+		})
+	</script>
+</section>
