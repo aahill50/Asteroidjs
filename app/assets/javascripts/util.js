@@ -11,10 +11,18 @@ Util.inherits = function (child, parent) {
 };
 
 Util.randomVec = function (length) {
-  var x = Math.floor(((Math.random() * 2) - 0.5) * (length))+1;
-  var y = Math.floor(((Math.random() * 2) - 0.5) * (length))+1;
+  var x = Math.floor(((Math.random() * 1.8) + 0.2) * (length))+1;
+  var y = Math.floor(((Math.random() * 1.8) + 0.2) * (length))+1;
+	
+	x = x * this.negMaybe();
+	y = y * this.negMaybe();
   return [x,y]
 };
+
+Util.negMaybe = function () {
+	var neg = Math.random() < 0.5 ? -1 : 1;
+	return neg;
+}
 
 Util.dist = function (pos1, pos2) {
   var x1 = pos1[0];

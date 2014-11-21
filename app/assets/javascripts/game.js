@@ -33,8 +33,6 @@ Game.prototype.getNextId = function () {
 };
 
 Game.prototype.reset = function (options) {
-	console.log("resetting");
-	debugger
 	$(window).off("click.resetGame");
 	this.removeMessage('gameover');
 
@@ -245,7 +243,6 @@ Game.prototype.updateLivesLeft = function () {
 Game.prototype.gameOver = function () {
 	var game = this;
 	if (!game.isOver) {
-		console.log("game over")
 		game.isOver = true;
 		game.shakeLarge();
 		game.submitScore();
@@ -268,8 +265,6 @@ Game.prototype.submitScore = function () {
 				console.log("New high score!");
 				game.promptForHighScore(resp.id, score);
 			} else {
-				console.log("Not a high score!");
-
 				$(window).one("click.resetGame", function (event) {
 					event.preventDefault();
 					game.reset({ newGame: true });
@@ -280,7 +275,6 @@ Game.prototype.submitScore = function () {
 };
 
 Game.prototype.promptForHighScore = function (id, score) {
-	console.log("prompting for name...")
 	var $modalOverlay = $('.modal.overlay');
 	var $modal = $('.modal.window');
 	var game = this;
@@ -299,7 +293,6 @@ Game.prototype.promptForHighScore = function (id, score) {
 	$('body').append($modal);
 	
 	$('.name-submit').on('submit', function (event) {
-		console.log("submitting new high score")
 		event.preventDefault();
 		var $form = $(event.currentTarget);
 		var username = $form.find('.name').val();
@@ -336,18 +329,24 @@ Game.prototype.addMessage = function (message) {
 	var $message = $('#message');
 	$gameOverlay.addClass('active');
 	$message.addClass(message);
+	
+	if (message === "gameover") {
+		$message.append('<div class="subtext">Click anywhere to start a new game</div>')
+	} else if (message === "paused") {
+		$message.append('<div class="subtext">Press \'p\' to unpause</div>')
+	}
 };
 
 Game.prototype.removeMessage = function (message) {
 	var $gameOverlay = $('#game-overlay');
 	var $message = $('#message');
+	$message.empty();
 	$gameOverlay.removeClass('active');
 	$message.removeClass(message);
 };
 
 Game.prototype.updateHighScoreList = function () {
 	$(function () {
-		debugger
 		console.log("updating high score list")
 		var $highScoreList = $('.highscores');
 		$highScoreList.empty();

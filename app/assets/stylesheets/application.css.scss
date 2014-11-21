@@ -156,6 +156,15 @@ body {
 	content: "GAME OVER";
 }
 
+.subtext {
+	position: absolute;
+	left: 150px;
+	width: 500px;
+	text-align: center;
+	color: white;
+	font-size: 20px;
+	top: 75px;
+}
 .header-text {
   margin: 0 auto;
   padding: 20px;
@@ -241,10 +250,26 @@ body {
 	100% { -webkit-transform: translate(0px); }
 }
 
+@-webkit-keyframes pulse {
+	0% { -webkit-transform: scale(1); }
+	25% { -webkit-transform: scale(.95); }
+	50% { -webkit-transform: scale(1); }
+	75% { -webkit-transform: scale(1.05); }
+	100% { -webkit-transform: scale(1); }
+}
+
+.subtext {
+	-webkit-animation-name: pulse;
+	-webkit-animation-duration: 1s;
+	-webkit-transform-origin: 50% 50%;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+
 .shake-small {
 	-webkit-animation-name: shake-small;
 	-webkit-animation-duration: .2s;
-	-webkit-transform-origin: 50% 50%;
+	-webkit-transform-origin: 0% 0%;
 	-webkit-animation-iteration-count: 1;
 	-webkit-animation-timing-function: linear;
 }

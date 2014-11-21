@@ -20,7 +20,7 @@ var Asteroid = Asteroids.Asteroid = function (pos, game, r) {
 
 Asteroids.Util.inherits(Asteroid, Asteroids.MovingObject);
 
-Asteroid.SIZES = [10, 10, 20, 40, 80];
+Asteroid.SIZES = [10, 10, 20, 20, 20, 40, 40, 80];
 
 Asteroid.prototype.draw = function (ctx) {
   ctx.fillStyle = this.color;
@@ -28,8 +28,8 @@ Asteroid.prototype.draw = function (ctx) {
   ctx.strokeStyle = "#222";
 
   ctx.arc(
-    this.pos[0], //x
-    this.pos[1], //y
+    this.pos[0],
+    this.pos[1],
     this.radius,
     0,
     2 * Math.PI,
