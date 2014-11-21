@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Asteroidjs::Application.config.secret_key_base = '15d703425dddf02d516899f2c41fa42d8d24fe04190e77ba2201046058a53c61f0cc22cc4ce48c901be37f1cd9af5ec6a4634e1d7c22fd7dcfca91ca82d80a90'
+Asteroidjs::Application.config.secret_key_base = ENV['secret_key_base']
