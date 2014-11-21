@@ -143,23 +143,23 @@ Game.prototype.wrap = function (pos, radius) {
   var y = pos[1];
   var r = radius;
 
-  if (x + r <= 2) {
-    var new_x = this.dimX + r + 2;
-  } else if (x - r + 2 >= this.dimX) {
-    var new_x = 2 - r
+  if (x + r < 0) {
+    var new_x = this.dimX + r;
+  } else if (x - r > this.dimX) {
+    var new_x = 0 - r
   } else {
     var new_x = x;
   }
 
-  if (y + r <= 2) {
-    var new_y = this.dimY + r + 2;
-  } else if (y - r + 2 >= this.dimY) {
-    var new_y = 2 - r;
+  if (y + r < 0) {
+    var new_y = this.dimY + r;
+  } else if (y - r > this.dimY) {
+    var new_y = 0 - r;
   } else {
     var new_y = y;
   }
 
-  return [new_x, new_y];
+  return [new_x,new_y];
 };
 
 Game.prototype.isOutOfBounds = function (pos, radius) {
@@ -254,7 +254,7 @@ Game.prototype.gameOver = function () {
 
 Game.prototype.submitScore = function () {
 	var score = this.score;
-	var username = "User";
+	var username = "Anonymous";
 	var game = this;
 	
 	$.ajax({
