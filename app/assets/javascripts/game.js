@@ -36,7 +36,15 @@ Game.prototype.reset = function (options) {
 	$(window).off("click.resetGame");
 	this.removeMessage('gameover');
 
-	Game.maxAsteroidArea *= 1.5;
+	if (options.newGame) {
+		Game.maxAsteroidArea = 10000;
+		this.updateHighScoreList();
+		this.score = 0;
+		this.lives = 5;
+	} else {
+		Game.maxAsteroidArea *= 1.5;
+	}
+	
 	this.maxAsteroidArea = Game.maxAsteroidArea;
   this.asteroids = this.addAsteroids();
   this.stars = this.addStars();
@@ -45,12 +53,6 @@ Game.prototype.reset = function (options) {
   this.allObjects = this.getAllObjects();
 	this.isOver = false;
 	this.isPaused = false;
-
-	if (options.newGame) {
-		this.updateHighScoreList();
-		this.score = 0;
-		this.lives = 5;
-	}
 };
 
 Game.prototype.getAllObjects = function () {
