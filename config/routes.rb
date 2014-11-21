@@ -1,4 +1,8 @@
 Asteroidjs::Application.routes.draw do
-  root to: 'games#show'
-  resource :game, only: :show
+  root to: 'scores#index'
+  resources :scores, only: [:index, :create, :update]
+  
+  namespace :api, defaults: { format: :json } do
+    resources :scores, only: [:index, :create, :update]
+  end
 end

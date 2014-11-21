@@ -22,6 +22,7 @@ var Game = Asteroids.Game = function (dimX, dimY) {
   this.allObjects = this.getAllObjects();
 	this.score = 0;
 	this.lives = 5;
+	this.updateHighScoreList();
 };
 
 Game.maxAsteroidArea = 10000;
@@ -32,10 +33,12 @@ Game.prototype.getNextId = function () {
 };
 
 Game.prototype.reset = function (options) {
+	console.log("resetting");
+	debugger
 	$(window).off("click.resetGame");
 	this.removeMessage('gameover');
 
-	 Game.maxAsteroidArea *= 1.5;
+	Game.maxAsteroidArea *= 1.5;
 	this.maxAsteroidArea = Game.maxAsteroidArea;
   this.asteroids = this.addAsteroids();
   this.stars = this.addStars();
@@ -46,6 +49,7 @@ Game.prototype.reset = function (options) {
 	this.isPaused = false;
 
 	if (options.newGame) {
+		this.updateHighScoreList();
 		this.score = 0;
 		this.lives = 5;
 	}
@@ -222,6 +226,7 @@ Game.prototype.remove = function (movingObject) {
   if (movingObject instanceof Asteroids.Asteroid) {
 		this.asteroids = this.asteroids.filter( function (ast) { return ast.id !== movingObject.id })
 		this.ASTEROID_COUNT -= 1;
+		this.shakeSmall();
   } else if(movingObject instanceof Asteroids.Bullet) {
 		this.bullets = this.bullets.filter( function (blt) { return blt.id !== movingObject.id })
   }
@@ -239,11 +244,89 @@ Game.prototype.updateLivesLeft = function () {
 
 Game.prototype.gameOver = function () {
 	var game = this;
-	game.isOver = true;
+	if (!game.isOver) {
+		console.log("game over")
+		game.isOver = true;
+		game.shakeLarge();
+		game.submitScore();
+		game.addMessage('gameover');
+	}
+};
 
-	this.addMessage('gameover')
+Game.prototype.submitScore = function () {
+	var score = this.score;
+	var username = "User";
+	var game = this;
+	
+	$.ajax({
+		url: '/api/scores',
+		type: 'post',
+		data: { score: score, username: username },
+		dataType: 'json',
+		success: function (resp) {
+			if (resp.highscore === true) {
+				console.log("New high score!");
+				game.promptForHighScore(resp.id, score);
+			} else {
+				console.log("Not a high score!");
 
-	$(window).one("click.resetGame", function () {
+				$(window).one("click.resetGame", function (event) {
+					event.preventDefault();
+					game.reset({ newGame: true });
+				})
+			}
+		}
+	})
+};
+
+Game.prototype.promptForHighScore = function (id, score) {
+	console.log("prompting for name...")
+	var $modalOverlay = $('.modal.overlay');
+	var $modal = $('.modal.window');
+	var game = this;
+		
+	$modalOverlay.removeClass('inactive');
+	$modal.removeClass('inactive');
+
+	$modal.html("\
+		New top ten score of " + score + "!\
+		<form class='name-submit group'>\
+			<input type='text' placeholder='Enter your name' class='name'></input>\
+		</form>\
+	");
+	
+	$('body').append($modalOverlay);
+	$('body').append($modal);
+	
+	$('.name-submit').on('submit', function (event) {
+		console.log("submitting new high score")
+		event.preventDefault();
+		var $form = $(event.currentTarget);
+		var username = $form.find('.name').val();
+		
+		$.ajax({
+			url: '/api/scores/' + id,
+			type: 'patch',
+			data: {"id": id, "username": username},
+			success: function (resp) {
+				console.log("saved new high score")
+				game.closeModal();
+			}
+		})
+	})
+};
+
+Game.prototype.closeModal = function () {
+	var game = this;
+	var $modals = $('.modal');
+		
+	$modals.empty();
+	$modals.addClass('inactive');
+	this.updateHighScoreList();
+	
+	
+	$(window).one("click.resetGame", function (event) {
+		event.preventDefault();
 		game.reset({ newGame: true });
 	})
 };
@@ -260,4 +343,45 @@ Game.prototype.removeMessage = function (message) {
 	var $message = $('#message');
 	$gameOverlay.removeClass('active');
 	$message.removeClass(message);
+};
+
+Game.prototype.updateHighScoreList = function () {
+	$(function () {
+		debugger
+		console.log("updating high score list")
+		var $highScoreList = $('.highscores');
+		$highScoreList.empty();
+		$highScoreList.html('<li class="title">HIGH SCORES</li>')
+		
+		$.ajax({
+			type: 'get',
+			url: '/api/scores',
+			success: function (resp) {
+				var scores = resp;
+				
+				scores.forEach(function (score) {
+					if (score.place <= 10) {
+						var $li = $('<li>');
+						$li.addClass('highscore');
+						$li.text(score.place + ". " + score.username + ": " + score.score);
+						$highScoreList.append($li);
+					}
+				})
+			}
+		})
+	})
+	
+	Game.prototype.shakeSmall = function () {
+		$('.game-container').addClass('shake-small');
+		window.setTimeout(function () {
+			$('.game-container').removeClass('shake-small')
+		},200);
+	};
+	
+	Game.prototype.shakeLarge = function () {
+		$('.game-container').addClass('shake-large');
+		window.setTimeout(function () {
+			$('.game-container').removeClass('shake-large')
+		},800);
+	};
 };
