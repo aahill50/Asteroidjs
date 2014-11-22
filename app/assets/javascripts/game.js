@@ -42,10 +42,11 @@ Game.prototype.reset = function (options) {
 		this.score = 0;
 		this.lives = 5;
 	} else {
-		Game.maxAsteroidArea *= 1.5;
+		Game.maxAsteroidArea *= 1.25;
 	}
 	
 	this.maxAsteroidArea = Game.maxAsteroidArea;
+	console.log(this.maxAsteroidArea)
   this.asteroids = this.addAsteroids();
   this.stars = this.addStars();
   this.ship = new Asteroids.Ship(this.findNewSpawn(), this)
