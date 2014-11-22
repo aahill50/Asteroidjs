@@ -22,3 +22,4 @@ Try to beat the high score!
 
 ##### Bugs
 * A "ghost" asteroid occasionally appears off screen. You are unable to destroy it, which prevents you from advancing.
+  * Only solution is to reload :(
